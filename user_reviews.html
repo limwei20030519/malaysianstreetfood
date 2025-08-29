@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Reviews - Malaysian Street Food</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background-color: #fffaf0;
+    }
+
+    .navbar-nav .nav-link {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .logo-container img {
+      height: 90px;
+      animation: fadeInDown 1.5s ease-in-out;
+    }
+
+    .reviews-header {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/reviews-banner.jpg') no-repeat center center/cover;
+      height: 55vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-shadow: 2px 2px 6px black;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    .fancy-card {
+      border-radius: 18px;
+      overflow: hidden;
+      background: linear-gradient(145deg, #fff, #fdf5e6);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+      transition: all 0.35s ease;
+      position: relative;
+    }
+
+    .fancy-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+    }
+
+    .fancy-card img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .fancy-card:hover img {
+      transform: scale(1.08);
+    }
+
+    .card-category {
+      position: absolute;
+      top: 12px;
+      left: -8px;
+      background: #ff5722;
+      color: #fff;
+      padding: 6px 14px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      border-radius: 0 8px 8px 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      animation: bounceBadge 1.2s infinite alternate;
+    }
+
+    @keyframes bounceBadge {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-6px); }
+    }
+
+    .fancy-card .card-body {
+      padding: 18px;
+      text-align: center;
+    }
+
+    .fancy-card h5 {
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .fancy-card p {
+      font-size: 0.95rem;
+      color: #555;
+      min-height: 55px;
+    }
+
+    .fancy-card-footer {
+      border-top: 1px solid #eee;
+      margin-top: 12px;
+      padding-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .star-rating i {
+      color: #ffc107;
+      margin-right: 2px;
+    }
+
+    .submit-review-btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 25px;
+      background: linear-gradient(135deg, #ff9800, #ff5722);
+      color: white;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .submit-review-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+      color: white;
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #ff5722;
+      color: #fff;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      z-index: 1000;
+    }
+
+    footer {
+      background-color: #222;
+      color: #ccc;
+      padding-top: 40px;
+    }
+
+    footer a {
+      color: #ccc;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: #ff9800;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0;}
+      to { opacity: 1;}
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Logo -->
+  <div class="logo-container text-left py-3">
+    <a href="index.html"><img src="images/msia-food-street.jpg" alt="Malaysian Food Street Logo"></a>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
+    <div class="container">
+      <!-- Removed the StreetFoodMY text -->
+      <a class="navbar-brand fw-bold" href="index.html"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link active" href="user_reviews.html">User Reviews</a></li>
+          <li class="nav-item"><a class="nav-link" href="vendor_spotlight.html">Vendor Spotlight</a></li>
+          <li class="nav-item"><a class="nav-link" href="Food-map.html">Food Map</a></li>
+          <li class="nav-item"><a class="nav-link" href="Near_me.html">Near Me</a></li>
+          <li class="nav-item"><a class="nav-link" href="toppickfood.html">Top Pick Food</a></li>
+          <li class="nav-item"><a class="nav-link" href="login.html" id="loginLink">Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <section class="reviews-header text-center">
+    <div>
+      <h1 class="display-4 fw-bold">User Reviews</h1>
+      <p class="lead">What people are saying about Malaysian street food</p>
+    </div>
+  </section>
+
+  <!-- Search/Filter -->
+  <div class="container mt-4">
+    <div class="input-group">
+      <input type="text" id="searchBar" class="form-control" placeholder="Search reviews (e.g., Satay, Laksa)">
+      <button class="btn btn-outline-dark"><i class="fas fa-search"></i></button>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <section class="container my-5">
+    <div class="row g-4" id="staticReviews">
+      <div class="col-md-4">
+        <div class="card fancy-card">
+          <img src="images/mee-rebus.jpg" alt="Mee Rebus">
+          <div class="card-category bg-warning text-dark">Noodles</div>
+          <div class="card-body">
+            <h5>Mee Rebus</h5>
+            <p>"Mee rebus … burger Ramly… nasi kerabu… ikan bakar…"</p>
+            <p class="source">— Redditor jahlim</p>
+            <div class="fancy-card-footer">
+              <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
+              <a href="https://www.reddit.com/r/MalaysianFood/comments/1ihmz3z/first_time_in_malaysia_please_give_popular_must/" target="_blank" class="btn btn-sm btn-outline-warning">Read More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card fancy-card">
+          <img src="images/asam-laksa.jpg" alt="Asam Laksa">
+          <div class="card-category bg-danger">Spicy</div>
+          <div class="card-body">
+            <h5>Asam Laksa</h5>
+            <p>"The night market in OUG … Fried noodles… Asam laksa… stinky tofu…"</p>
+            <p class="source">— Redditor Itchy_Stubbed_Toe</p>
+            <div class="fancy-card-footer">
+              <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div>
+              <a href="https://www.reddit.com/r/malaysia/comments/15uljv3/whats_your_favourite_street_food/" target="_blank" class="btn btn-sm btn-outline-danger">Read More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card fancy-card">
+          <img src="images/satay.jpg" alt="Kajang Satay">
+          <div class="card-category bg-success">Grilled</div>
+          <div class="card-body">
+            <h5>Kajang Satay</h5>
+            <p>"Kajang’s satay … grilled over hot coals … sweet peanut sauce…"</p>
+            <p class="source">— Matt Preston</p>
+            <div class="fancy-card-footer">
+              <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+              <a href="https://www.adelaidenow.com.au/lifestyle/matt-preston-has-found-the-worlds-best-satay-sticks-for-50c-each/news-story/cec049d7191f533b1a3d8b111f6d5822" target="_blank" class="btn btn-sm btn-outline-success">Read More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 mt-3" id="dynamicReviews"></div>
+
+    <div class="text-center mt-4">
+      <a href="submit_review.html" class="submit-review-btn">+ Submit Your Review</a>
+    </div>
+  </section>
+
+  <button id="backToTop" class="back-to-top"><i class="fas fa-chevron-up"></i></button>
+
+  <footer>
+    <div class="container">
+      <div class="row justify-content-center text-center">
+        <div class="col-md-4 mb-4">
+          <h5>More</h5>
+          <ul class="list-unstyled">
+            <li><a href="about.html">About Us →</a></li>
+            <li><a href="user_reviews.html">User Reviews →</a></li>
+            <li><a href="vendor_spotlight.html">Vendor Spotlight →</a></li>
+            <li><a href="Food-map.html">Food Map →</a></li>
+            <li><a href="Near_me.html">Near Me →</a></li>
+            <li><a href="toppickfood.html">Top Pick Food →</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-4">
+          <h5>Follow Us</h5>
+          <div class="d-flex justify-content-center gap-3">
+            <a href="https://www.facebook.com/share/g/17HdJ2YLGw/" target="_blank"><i class="fab fa-facebook-f fs-4"></i></a>
+            <a href="https://www.instagram.com/malaysia_street_food" target="_blank"><i class="fab fa-instagram fs-4"></i></a>
+          </div>
+        </div>
+      </div>
+      <hr class="border-secondary">
+      <div class="text-center pb-3">
+        <p class="mb-0">&copy; 2025 Malaysian Street Food</p>
+        <p class="mb-0">Designed by <strong>Koh Jia Hao (2203133)</strong></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const backToTop = document.getElementById("backToTop");
+    window.addEventListener("scroll", () => { backToTop.style.display = window.scrollY > 200 ? "flex" : "none"; });
+    backToTop.addEventListener("click", () => { window.scrollTo({ top: 0, behavior: "smooth" }); });
+
+    document.getElementById("searchBar").addEventListener("keyup", function () {
+      let filter = this.value.toLowerCase();
+      document.querySelectorAll(".fancy-card").forEach(card => {
+        let text = card.innerText.toLowerCase();
+        card.parentElement.style.display = text.includes(filter) ? "block" : "none";
+      });
+    });
+
+    function loadReviews() {
+      let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+      let container = document.getElementById("dynamicReviews");
+      container.innerHTML = "";
+
+      reviews.forEach(r => {
+        let imgTag = r.image && r.image.trim() !== "" ? `<img src="${r.image}" alt="${r.food}" class="card-img-top" style="height:190px; object-fit:cover;">` : "";
+        let stars = "";
+        for (let i = 1; i <= 5; i++) { stars += i <= r.rating ? `<i class="fas fa-star"></i>` : `<i class="far fa-star"></i>`; }
+        let card = `
+          <div class="col-md-4">
+            <div class="card fancy-card">
+              ${imgTag}
+              <div class="card-body">
+                <h5>${r.food}</h5>
+                <p>"${r.review}"</p>
+                <p class="source">— ${r.name}</p>
+                <div class="fancy-card-footer">
+                  <div class="star-rating">${stars}</div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+        container.innerHTML += card;
+      });
+    }
+    window.onload = loadReviews;
+  </script>
+</body>
+</html>

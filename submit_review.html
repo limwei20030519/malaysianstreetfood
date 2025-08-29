@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Review - Malaysian Street Food</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    body { background-color: #fffaf0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+    .logo-container img { height: 100px; width: auto; }
+    .form-container { max-width: 600px; margin: 60px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 18px rgba(0,0,0,0.2); }
+    h2 { text-align: center; margin-bottom: 20px; }
+    button { background: linear-gradient(135deg, #ff9800, #ff5722); color: white; border: none; padding: 10px 20px; border-radius: 25px; font-weight: bold; }
+    button:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+    .star-rating i { font-size: 1.5rem; color: #ccc; cursor: pointer; }
+    .star-rating i.selected { color: #ffc107; }
+  </style>
+</head>
+
+<body>
+  <!-- Logo -->
+  <div class="logo-container text-left py-3">
+    <a href="index.html"><img src="images/msia-food-street.jpg" alt="Malaysian Food Street Logo"></a>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link active" href="user_reviews.html">User Reviews</a></li>
+          <li class="nav-item"><a class="nav-link" href="vendor_spotlight.html">Vendor Spotlight</a></li>
+          <li class="nav-item"><a class="nav-link" href="Food-map.html">Food Map</a></li>
+          <li class="nav-item"><a class="nav-link" href="Near_me.html">Near Me</a></li>
+          <li class="nav-item"><a class="nav-link" href="toppickfood.html">Top Pick Food</a></li>
+          <li class="nav-item"><a class="nav-link" href="login.html" id="loginLink">Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Form -->
+  <div class="form-container">
+    <h2>Submit Your Review</h2>
+    <form id="reviewForm">
+      <div class="mb-3">
+        <label class="form-label">Your Name</label>
+        <input type="text" id="reviewerName" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Dish / Food Item</label>
+        <input type="text" id="foodName" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Your Review</label>
+        <textarea id="reviewText" class="form-control" rows="4" required></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Rating</label>
+        <div class="star-rating" id="ratingStars">
+          <i class="fas fa-star" data-value="1"></i>
+          <i class="fas fa-star" data-value="2"></i>
+          <i class="fas fa-star" data-value="3"></i>
+          <i class="fas fa-star" data-value="4"></i>
+          <i class="fas fa-star" data-value="5"></i>
+        </div>
+        <input type="hidden" id="reviewRating" value="0" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Upload Food Photo (optional)</label>
+        <input type="file" id="foodImage" class="form-control" accept="image/*">
+      </div>
+      <button type="submit">Submit Review</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer class="pt-5 pb-3 bg-dark text-light mt-5">
+    <div class="container text-center">
+      <p class="mb-0">&copy; 2025 Malaysian Street Food</p>
+      <p class="mb-0">This webpage design by <strong>Koh Jia Hao (2203133)</strong></p>
+    </div>
+  </footer>
+
+  <script>
+    // Handle star selection
+    document.querySelectorAll("#ratingStars i").forEach(star => {
+      star.addEventListener("click", function () {
+        let rating = this.getAttribute("data-value");
+        document.getElementById("reviewRating").value = rating;
+        document.querySelectorAll("#ratingStars i").forEach(s => s.classList.remove("selected"));
+        for (let i = 0; i < rating; i++) {
+          document.querySelectorAll("#ratingStars i")[i].classList.add("selected");
+        }
+      });
+    });
+
+    // Handle form submit
+    document.getElementById("reviewForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      let name = document.getElementById("reviewerName").value.trim();
+      let food = document.getElementById("foodName").value.trim();
+      let review = document.getElementById("reviewText").value.trim();
+      let rating = parseInt(document.getElementById("reviewRating").value);
+      let imageFile = document.getElementById("foodImage").files[0];
+
+      if (rating === 0) {
+        alert("Please select a star rating.");
+        return;
+      }
+
+      function saveReview(imageBase64 = null) {
+        let newReview = { name, food, review, rating, image: imageBase64 };
+
+        let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+        reviews.push(newReview);
+        localStorage.setItem("reviews", JSON.stringify(reviews));
+
+        alert("Thank you for your review!");
+        window.location.href = "user_reviews.html";
+      }
+
+      if (imageFile) {
+        let reader = new FileReader();
+        reader.onload = function (event) {
+          saveReview(event.target.result);
+        };
+        reader.readAsDataURL(imageFile);
+      } else {
+        saveReview();
+      }
+    });
+  </script>
+</body>
+</html>

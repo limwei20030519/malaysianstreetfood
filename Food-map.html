@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malaysia Street Food Map</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-image: url("images/Satay.png"), url("images/NasiLemak.png"), url("images/Cendol.png"), url("images/CharKueyTeow.png");
+            background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+            background-size: 55%, 55%, 40%, 65%;
+            background-position: top right, top left, bottom right, bottom left;
+            background-attachment: fixed, fixed, fixed, fixed;
+            color: black;
+        }
+
+        /* Logo styling */
+        .logo-container {
+            text-align: left;
+            padding: 10px 15px;
+        }
+        .logo-container img {
+            height: 90px;
+            animation: fadeInDown 1.5s ease-in-out;
+        }
+        
+        /* Navbar styling to match user_reviews */
+        .navbar-nav .nav-link {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        header {
+            background: rgba(0, 128, 0, 0.85);
+            color: floralwhite;
+            padding: 15px;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: 0;
+            border-radius: 10px;
+            background: white;
+        }
+
+        section {
+            margin-top: 30px;
+        }
+
+        .city {
+            border: 1px solid gray;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: white;
+        }
+
+        .city h2 {
+            color: blue;
+            margin-top: 0;
+        }
+
+        .restaurant {
+            display: flex;
+            justify-content: space-between;
+            margin: 6px 0;
+        }
+
+        .restaurant button {
+            background: green;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 4px 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .restaurant button:hover {
+            background: darkgreen;
+        }
+
+        #myChoices {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 8px;
+            background: white;
+            border: 1px solid gray;
+        }
+
+        #myChoices h3 {
+            margin-top: 0;
+            color: red;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin: 4px 0;
+        }
+
+        #saveBar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: lightgray;
+            padding: 10px;
+            text-align: center;
+            border-top: 2px solid gray;
+        }
+
+        #saveBar button {
+            background: blue;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #saveBar button:hover {
+            background: darkblue;
+        }
+
+        /* Footer styling to match user_reviews */
+        footer {
+            background-color: #222;
+            color: #ccc;
+            padding-top: 40px;
+        }
+
+        footer h5 {
+            position: relative;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        footer h5::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2px;
+            background: #d9b100;
+        }
+
+        footer a {
+            color: #ccc;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #ff9800;
+        }
+        
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Logo -->
+    <div class="logo-container">
+        <a href="index.html">
+            <img src="images/msia-food-street.jpg" alt="Malaysian Food Street Logo">
+        </a>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="user_reviews.html">User Reviews</a></li>
+                    <li class="nav-item"><a class="nav-link" href="vendor_spotlight.html">Vendor Spotlight</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="Food-map.html">Food Map</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Near_me.html">Near Me</a></li>
+                    <li class="nav-item"><a class="nav-link" href="toppickfood.html">Top Pick Food</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.html" id="loginLink">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Original content -->
+    <header>
+        <h1>🍲 Malaysia Street Food Map</h1>
+        <p>Explore street food by city and save your picks</p>
+    </header>
+
+    <main>
+        <font color="white"><h2>🗺️ Food Map</h2></font>
+        <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1_8CzfzeCR4NiH4hW9uo2HhdpMb0YLYw&ehbc=2E312F&noprof=1" allowfullscreen></iframe>
+
+        <section>
+            <font color="white"><h2>🌆 Recommended Cities & Dishes</h2></font>
+
+            <div class="city">
+                <font color="white"><h2>Kuala Lumpur</h2></font>
+                <div class="restaurant">
+                    <span>Village Park Restaurant - Famous Nasi lemak</span>
+                    <button onclick="saveChoice('Village Park Restaurant: 5, Jalan SS 21/37, Damansara Utama, 47400 Petaling Jaya, Selangor, Malaysia')">Save</button>
+                </div>
+                <div class="restaurant">
+                    <span>Restoran Wong Ah Wa - Grilled chicken wings</span>
+                    <button onclick="saveChoice('Restoran Wong Ah Wa: No. 1, 3, 5, 7, 9 Jalan Alor, Bukit Bintang, 50200 Kuala Lumpur, Malaysia')">Save</button>
+                </div>
+                <div class="restaurant">
+                    <span>Restoran Sek Yuen - Tradisional Cantonese restaurant</span>
+                    <button onclick="saveChoice('Restoran Sek Yuen: 313 Jalan Pudu, Pudu, 55100 Kuala Lumpur, Malaysia')">Save</button>
+                </div>
+            </div>
+
+            <div class="city">
+                <h2>Penang</h2>
+                <div class="restaurant">
+                    <span>Siam Road Charcoal Char Kway Teow - Famous Wok-Fried char kway teow</span>
+                    <button onclick="saveChoice('Siam Road Charcoal Char Kway Teow: 82, Jalan Siam, Georgetown, 10400 George Town, Penang, Malaysia')">Save</button>
+                </div>
+                <div class="restaurant">
+                    <span>Line Clear Nasi Kandar - Iconic Penang nasi kandar</span>
+                    <button onclick="saveChoice('Line Clear Nasi Kandar: Beside 161 & 177 Penang Road, George Town, 10000 Penang, Malaysia')">Save</button>
+                </div>
+                <div class="restaurant">
+                    <span>Gurney Drive Hawker Centre - Penang's largest hawker centre</span>
+                    <button onclick="saveChoice('Gurney Drive Hawker Centre: 172 Solok Gurney 1, Pulau Tikus, 10250 George Town, Penang, Malaysia')">Save</button>
+                </div>
+            </div>
+
+            <div class="city">
+                <h2>Melaka</h2>
+                <div class="restaurant">
+                    <span>Capitol Satay Celup - Melaka's famous satay celup</span>
+                    <button onclick="saveChoice('Capitol Satay Celup: 30 Jalan KPKS 3, Kota Syahbandar, 75200 Melaka, Malaysia')">Save</button>
+                </div>
+                <div class="restaurant">
+                    <span>Restoran Nyonya Makko - Authentic Peranakan (Nyonya) cuisine</span>
+                    <button onclick="saveChoice('Restoran Nyonya Makko: 123 Jalan Merdeka, Taman Melaka Raya, 75000 Melaka, Malaysia')">Save</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="myChoices">
+            <h3>⭐ My Saved Restaurants</h3>
+            <ul id="choicesList"></ul>
+            <button style="margin-top:10px;background:red;color:white;" onclick="clearChoices()">Clear All</button>
+        </section>
+    </main>
+
+    <div id="saveBar">
+        <button onclick="showChoices()">Show Saved Restaurants</button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="pt-5 pb-3">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-md-4 mb-4">
+                    <h5>More</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="about.html">About Us →</a></li>
+                        <li><a href="user_reviews.html">User Reviews →</a></li>
+                        <li><a href="vendor_spotlight.html">Vendor Spotlight →</a></li>
+                        <li><a href="Food-map.html">Food Map →</a></li>
+                        <li><a href="Near_me.html">Near Me →</a></li>
+                        <li><a href="toppickfood.html">Top Pick Food →</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Follow Us</h5>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="https://www.facebook.com/share/g/17HdJ2YLGw/" target="_blank">
+                            <i class="fab fa-facebook-f fs-4"></i>
+                        </a>
+                        <a href="https://www.instagram.com/malaysia_street_food?igsh=MTh6eW9rdXlkYjZpbg==" target="_blank">
+                            <i class="fab fa-instagram fs-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-secondary">
+            <div class="text-center pb-3">
+                <p class="mb-0">&copy; 2025 Malaysian Street Food</p>
+                <p class="mb-0">Designed by <strong>Chia Ming Shao (2301267)</strong></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", loadChoices);
+
+        function saveChoice(name) {
+            let choices = JSON.parse(localStorage.getItem("myRestaurants")) || [];
+            if (!choices.includes(name)) {
+                choices.push(name);
+                localStorage.setItem("myRestaurants", JSON.stringify(choices));
+            }
+            loadChoices();
+        }
+
+        function loadChoices() {
+            const choices = JSON.parse(localStorage.getItem("myRestaurants")) || [];
+            const list = document.getElementById("choicesList");
+            list.innerHTML = "";
+            choices.forEach(item => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                list.appendChild(li);
+            });
+        }
+
+        function clearChoices() {
+            localStorage.removeItem("myRestaurants");
+            loadChoices();
+        }
+
+        function showChoices() {
+            alert("Saved Restaurants:\n" + (JSON.parse(localStorage.getItem("myRestaurants")) || []).join("\n"));
+        }
+    </script>
+</body>
+</html>

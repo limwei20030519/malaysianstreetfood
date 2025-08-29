@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Near Me – Malaysian Street Food</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0;
+            background-image: url("images/Satay.png"), url("images/NasiLemak.png"), url("images/Cendol.png"), url("images/CharKueyTeow.png");
+            background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+            background-size: 55%, 55%, 40%, 65%;
+            background-position: top right, top left, bottom right, bottom left;
+            background-attachment: fixed, fixed, fixed, fixed;
+            color: black;
+        }
+        
+        /* Logo styling */
+        .logo-container {
+            text-align: left;
+            padding: 10px 15px;
+        }
+        .logo-container img {
+            height: 90px;
+            animation: fadeInDown 1.5s ease-in-out;
+        }
+        
+        /* Navbar styling to match user_reviews */
+        .navbar-nav .nav-link {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .navbar {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+        
+        header {
+            background: rgba(0, 128, 0, 0.85);
+            color: floralwhite;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        #map {
+            height: 500px;
+            width: 100%;
+            border: 3px solid black;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn-locate {
+            margin: 10px;
+            padding: 10px 20px;
+            background: blue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .btn-locate:hover {
+            background: darkblue;
+        }
+        
+        /* Footer styling to match user_reviews */
+        footer {
+            background-color: #222;
+            color: #ccc;
+            padding-top: 40px;
+        }
+        
+        footer h5 {
+            position: relative;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+        
+        footer h5::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2px;
+            background: #d9b100;
+        }
+        
+        footer a {
+            color: #ccc;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            color: #ff9800;
+        }
+        
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo -->
+    <div class="logo-container">
+        <a href="index.html">
+            <img src="images/msia-food-street.jpg" alt="Malaysian Food Street Logo">
+        </a>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="user_reviews.html">User Reviews</a></li>
+                    <li class="nav-item"><a class="nav-link" href="vendor_spotlight.html">Vendor Spotlight</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Food-map.html">Food Map</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="Near_me.html">Near Me</a></li>
+                    <li class="nav-item"><a class="nav-link" href="toppickfood.html">Top Pick Food</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.html" id="loginLink">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <h1>🍲 Street Food Near Me</h1>
+        <p>Find your location and famous restaurants near you.</p>
+    </header>
+
+    <!-- Main Section -->
+    <main class="container text-center">
+        <button class="btn-locate" onclick="Mylocation()">📍 Show My Location</button>
+        <div id="map"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="pt-5 pb-3">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-md-4 mb-4">
+                    <h5>More</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="about.html">About Us →</a></li>
+                        <li><a href="user_reviews.html">User Reviews →</a></li>
+                        <li><a href="vendor_spotlight.html">Vendor Spotlight →</a></li>
+                        <li><a href="Food-map.html">Food Map →</a></li>
+                        <li><a href="Near_me.html">Near Me →</a></li>
+                        <li><a href="toppickfood.html">Top Pick Food →</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Follow Us</h5>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="https://www.facebook.com/share/g/17HdJ2YLGw/" target="_blank"><i class="fab fa-facebook-f fs-4"></i></a>
+                        <a href="https://www.instagram.com/malaysia_street_food?igsh=MTh6eW9rdXlkYjZpbg==" target="_blank"><i class="fab fa-instagram fs-4"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-secondary">
+            <div class="text-center pb-3">
+                <p class="mb-0">&copy; 2025 Malaysian Street Food</p>
+                <p class="mb-0">Designed by <strong>Chia Ming Shao (2301267)</strong></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([4.3, 101.15], 13); // Default Kampar
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var userMarker, userCircle;
+
+        var restaurants = [
+            { name: "Kam Ling Restaurant", lat: 4.3102, lon: 101.1504, desc: "Chinese banquet-style restaurant; roast meats and big family meals." },
+            { name: "Restoran Fook Kee", lat: 4.3110, lon: 101.1532 },
+            { name: "Wing Lok Yuen Kopitiam", lat: 4.3125, lon: 101.1528 },
+            { name: "Restoran Jia - Claypot Chicken Rice", lat: 4.3098, lon: 101.1469, desc: "Charcoal-cooked claypot chicken rice with salted fish." },
+            { name: "Yau Kee Restaurant", lat: 4.3120, lon: 101.1480, desc: "Signature curry chicken bread – Kampar's must-try dish." },
+            { name: "Restoran Tauge Ayam Lou Wong", lat: 4.5975, lon: 101.0901, desc: "Famous for Ipoh bean sprout chicken (tauge ayam)." },
+            { name: "Sin Yoon Loong Coffee Shop", lat: 4.5972, lon: 101.0846, desc: "Home of original Ipoh white coffee since 1937." },
+            { name: "Capitol Satay Celup", lat: 2.1951, lon: 102.2460, desc: "Melaka's famous satay celup." },
+            { name: "Restoran Nyonya Makko", lat: 2.1898, lon: 102.2501, desc: "Authentic Nyonya cuisine." },
+            { name: "Village Park Restaurant", lat: 3.1631, lon: 101.6299, desc: "Famous nasi lemak with crispy fried chicken." },
+            { name: "Restoran Wong Ah Wa", lat: 3.1457, lon: 101.7071, desc: "Grilled chicken wings on KL's Jalan Alor." },
+            { name: "Restoran Sek Yuen", lat: 3.1403, lon: 101.7130, desc: "Old-school Cantonese dishes." },
+            { name: "Gurney Drive Hawker Centre", lat: 5.4372, lon: 100.3090, desc: "Penang's largest hawker centre." },
+            { name: "Siam Road Charcoal Char Kway Teow", lat: 5.4019, lon: 100.3207, desc: "Charcoal char kway teow." },
+            { name: "Line Clear Nasi Kandar", lat: 5.4165, lon: 100.3295, desc: "Iconic nasi kandar." },
+            { name: "Restoran Kin Hua", lat: 1.4554, lon: 103.7610, desc: "Classic kopitiam with kaya toast." },
+            { name: "Restoran Hua Mui", lat: 1.4563, lon: 103.7619, desc: "Hainanese chicken chop." },
+            { name: "Welcome Seafood Restaurant", lat: 5.9725, lon: 116.0716, desc: "Famous seafood in Sabah." },
+            { name: "Kedai Kopi Yee Fung", lat: 5.9834, lon: 116.0762, desc: "Signature laksa and yee mee." },
+            { name: "Top Spot Food Court", lat: 1.5580, lon: 110.3557, desc: "Rooftop hawker seafood." },
+            { name: "Chong Choon Cafe", lat: 1.5545, lon: 110.3540, desc: "Sarawak laksa and kaya toast." }
+        ];
+
+        restaurants.forEach(r => {
+            L.marker([r.lat, r.lon]).addTo(map)
+                .bindPopup("<b>" + r.name + "</b><br>" + (r.desc || ""));
+        });
+
+        var redIcon = new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+            shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+
+        function Mylocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(pos => {
+                    var lat = pos.coords.latitude;
+                    var lon = pos.coords.longitude;
+                    map.setView([lat, lon], 15);
+
+                    if (userMarker) map.removeLayer(userMarker);
+                    if (userCircle) map.removeLayer(userCircle);
+
+                    userMarker = L.marker([lat, lon], { icon: redIcon }).addTo(map)
+                        .bindPopup("📍 Your Location").openPopup();
+
+                    userCircle = L.circle([lat, lon], {
+                        radius: 500,
+                        color: "red",
+                        fillColor: "lightblue",
+                        fillOpacity: 0.3
+                    }).addTo(map);
+                }, err => {
+                    alert("Error getting location: " + err.message);
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+    </script>
+</body>
+</html>
